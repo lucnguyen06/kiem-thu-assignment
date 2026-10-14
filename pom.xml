@@ -65,6 +65,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- Mockito with Byte Buddy supporting Java 27 -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.14.0</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Test: TestNG + Selenium (UI) -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -102,6 +109,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
+                            <argLine>-Xmx1024m -XX:MaxMetaspaceSize=512m</argLine>
                             <excludes>
                                 <exclude>**/ui/**</exclude>
                             </excludes>
