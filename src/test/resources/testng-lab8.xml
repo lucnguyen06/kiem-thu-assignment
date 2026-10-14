@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Lab 8 - Advanced Topics Test Suite" parallel="methods" thread-count="2">
+
+    <!-- ============================================= -->
+    <!-- LAB 8 SUITE: Advanced Topics                   -->
+    <!-- parallel="methods" - Chay cac @Test song song -->
+    <!-- ============================================= -->
+
+    <!-- Test 1: Cross-browser Testing -->
+    <test name="Cross-Browser Tests">
+        <groups>
+            <run>
+                <include name="cross-browser"/>
+            </run>
+        </groups>
+        <classes>
+            <!-- Lab8AdvancedTest @Factory se tao 3 instances: chrome, firefox, edge -->
+            <class name="com.example.shop.ui.Lab8AdvancedTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 2: Data-Driven Tests -->
+    <test name="Data-Driven Tests">
+        <groups>
+            <run>
+                <include name="data-driven"/>
+            </run>
+        </groups>
+        <classes>
+            <!-- Lab8DataDrivenTest @Factory se tao 5 instances -->
+            <class name="com.example.shop.ui.Lab8DataDrivenTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 3: Retry Tests -->
+    <test name="Retry Tests">
+        <groups>
+            <run>
+                <include name="retry"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.example.shop.ui.Lab8AdvancedTest"/>
+        </classes>
+    </test>
+
+</suite>

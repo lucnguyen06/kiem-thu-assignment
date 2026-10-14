@@ -1,0 +1,8 @@
+username,password,email,expectedResult
+alice,secret1,alice@mail.com,VALID
+bob,password123,bob@test.com,VALID
+ab,secret1,a@b.com,USERNAME_TOO_SHORT
+validuser,12345,a@b.com,PASSWORD_TOO_SHORT
+validuser,secret1,not-email,EMAIL_INVALID
+,secret1,a@b.com,USERNAME_EMPTY
+validuser,secret1,,EMAIL_EMPTY
