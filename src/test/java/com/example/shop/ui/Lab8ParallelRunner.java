@@ -2,7 +2,6 @@ package com.example.shop.ui;
 
 import org.testng.Assert;
 import org.testng.TestNG;
-import org.testng.xml.Parser;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 

@@ -224,10 +224,10 @@ public class CalculatorDataDrivenTest {
     void arithmetic_WithMethodSource(ArithmeticCase testCase) {
         Calculator calc = new Calculator();
         switch (testCase.operation) {
-            case "add" -> assertEquals(testCase.expected, calc.add(testCase.a, testCase.b));
-            case "subtract" -> assertEquals(testCase.expected, calc.subtract(testCase.a, testCase.b));
-            case "multiply" -> assertEquals(testCase.expected, calc.multiply(testCase.a, testCase.b));
-            case "divide" -> assertEquals(testCase.expected, calc.divide(testCase.a, testCase.b), 0.001);
+            case "add" -> assertEquals((Integer)testCase.expected, calc.add(testCase.a, testCase.b));
+            case "subtract" -> assertEquals((Integer)testCase.expected, calc.subtract(testCase.a, testCase.b));
+            case "multiply" -> assertEquals((Integer)testCase.expected, calc.multiply(testCase.a, testCase.b));
+            case "divide" -> assertEquals((Double)testCase.expected, calc.divide(testCase.a, testCase.b), 0.001);
         }
     }
     

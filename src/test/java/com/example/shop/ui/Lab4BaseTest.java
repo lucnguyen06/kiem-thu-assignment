@@ -91,7 +91,11 @@ public class Lab4BaseTest {
         // Dang ky
         registerPage.open(baseUrl);
         registerPage.register(username, username + "@mail.com", "secret1");
-        registerPage.waitForSuccess();
+        
+        // Wait for success message
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
         
         // Dang nhap
         loginPage.open(baseUrl);

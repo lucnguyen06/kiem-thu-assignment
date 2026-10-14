@@ -117,11 +117,11 @@ public class CalculatorBasicTest {
         @Test
         @DisplayName("assertNull va assertNotNull")
         void assertNullTest() {
-            String result = calc.divide(6, 2) == 3 ? "OK" : null;
-            assertNotNull(result, "Ket qua khong duoc null");
+            String result = calc.divide(6, 2) == 3.0 ? "OK" : null;
+            assertNotNull(result);
             
             String nullResult = null;
-            assertNull(nullResult, "Gia tri nay phai la null");
+            assertTrue(nullResult == null);
         }
         
         @Test
@@ -168,7 +168,10 @@ public class CalculatorBasicTest {
         void assertArrayEqualsTest() {
             int[] arr1 = {1, 2, 3};
             int[] arr2 = {1, 2, 3};
-            assertArrayEquals(arr1, arr2, "Hai mang phai bang nhau");
+            assertEquals(arr1.length, arr2.length);
+            for (int i = 0; i < arr1.length; i++) {
+                assertEquals(arr1[i], arr2[i]);
+            }
         }
     }
     
