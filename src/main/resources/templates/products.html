@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>San pham</title>
+</head>
+<body>
+<h1>Danh sach san pham</h1>
+<p>Xin chao, <span id="current-user" th:text="${currentUser}"></span></p>
+<a id="logout-link" th:href="@{/logout}">Dang xuat</a>
+<a id="add-link" th:href="@{/products/new}">Them san pham</a>
+<table id="product-table" border="1">
+    <thead>
+    <tr><th>ID</th><th>Ten</th><th>Gia</th><th>So luong</th><th>Thao tac</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${products}" th:attr="data-name=${p.name}">
+        <td th:text="${p.id}"></td>
+        <td class="p-name" th:text="${p.name}"></td>
+        <td class="p-price" th:text="${p.price}"></td>
+        <td class="p-qty" th:text="${p.quantity}"></td>
+        <td>
+            <a class="edit-link" th:href="@{/products/{id}/edit(id=${p.id})}">Sua</a>
+            <form style="display:inline" method="post" th:action="@{/products/{id}/delete(id=${p.id})}">
+                <button class="delete-btn" type="submit">Xoa</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
