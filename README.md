@@ -173,6 +173,3 @@ Workflow `.github/workflows/selenium-ci.yml`:
 4. **Selenium Manager**: tự tải chromedriver nếu chưa có.
 5. **AI_Log.md**: ghi lại prompt thật và quyết định thiết kế (Y6).
 
-## Tác giả
-
-Dự án được tạo bởi AI (Cursor/Claude) theo yêu cầu đề bài. Sinh viên cần review, chạy thật, và nộp.
