@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="10" passed="10" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-10-24T01:33:35 GMT+07:00" name="ShopUiSuite" finished-at="2026-10-24T01:33:53 GMT+07:00" duration-ms="17489">
+    <groups>
+      <group name="product">
+        <method signature="ProductCrudUiTest.should_CreateProduct_When_FormValid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_CreateProduct_When_FormValid" class="com.example.shop.ui.ProductCrudUiTest"/>
+        <method signature="ProductCrudUiTest.should_DeleteProduct_When_DeleteClicked()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_DeleteProduct_When_DeleteClicked" class="com.example.shop.ui.ProductCrudUiTest"/>
+        <method signature="ProductCrudUiTest.should_ShowFieldErrors_When_CreateInvalid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_ShowFieldErrors_When_CreateInvalid" class="com.example.shop.ui.ProductCrudUiTest"/>
+        <method signature="ProductCrudUiTest.should_UpdateProduct_When_EditSaved()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_UpdateProduct_When_EditSaved" class="com.example.shop.ui.ProductCrudUiTest"/>
+      </group> <!-- product -->
+      <group name="auth">
+        <method signature="AuthUiTest.should_RedirectToLogin_When_OpenProductsWithoutLogin()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_RedirectToLogin_When_OpenProductsWithoutLogin" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="AuthUiTest.should_RegisterThenLogin_When_DataValid()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_RegisterThenLogin_When_DataValid" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="AuthUiTest.should_ShowError_When_LoginWrongPassword()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_ShowError_When_LoginWrongPassword" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="AuthUiTest.should_ShowError_When_RegisterInvalid(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_ShowError_When_RegisterInvalid" class="com.example.shop.ui.AuthUiTest"/>
+      </group> <!-- auth -->
+      <group name="regression">
+        <method signature="AuthUiTest.should_RedirectToLogin_When_OpenProductsWithoutLogin()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_RedirectToLogin_When_OpenProductsWithoutLogin" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="AuthUiTest.should_ShowError_When_RegisterInvalid(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_ShowError_When_RegisterInvalid" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="ProductCrudUiTest.should_ShowFieldErrors_When_CreateInvalid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_ShowFieldErrors_When_CreateInvalid" class="com.example.shop.ui.ProductCrudUiTest"/>
+        <method signature="ProductCrudUiTest.should_UpdateProduct_When_EditSaved()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_UpdateProduct_When_EditSaved" class="com.example.shop.ui.ProductCrudUiTest"/>
+      </group> <!-- regression -->
+      <group name="smoke">
+        <method signature="AuthUiTest.should_RegisterThenLogin_When_DataValid()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_RegisterThenLogin_When_DataValid" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="AuthUiTest.should_ShowError_When_LoginWrongPassword()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" name="should_ShowError_When_LoginWrongPassword" class="com.example.shop.ui.AuthUiTest"/>
+        <method signature="ProductCrudUiTest.should_CreateProduct_When_FormValid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_CreateProduct_When_FormValid" class="com.example.shop.ui.ProductCrudUiTest"/>
+        <method signature="ProductCrudUiTest.should_DeleteProduct_When_DeleteClicked()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" name="should_DeleteProduct_When_DeleteClicked" class="com.example.shop.ui.ProductCrudUiTest"/>
+      </group> <!-- smoke -->
+    </groups>
+    <test started-at="2026-10-24T01:33:35 GMT+07:00" name="UI tests" finished-at="2026-10-24T01:33:53 GMT+07:00" duration-ms="17489">
+      <class name="com.example.shop.ui.AuthUiTest">
+        <test-method is-config="true" signature="startApp()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:32 GMT+07:00" name="startApp" finished-at="2026-10-24T01:33:35 GMT+07:00" duration-ms="3291" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startApp -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:35 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:36 GMT+07:00" duration-ms="774" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_RedirectToLogin_When_OpenProductsWithoutLogin()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:36 GMT+07:00" name="should_RedirectToLogin_When_OpenProductsWithoutLogin" finished-at="2026-10-24T01:33:36 GMT+07:00" duration-ms="286" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_RedirectToLogin_When_OpenProductsWithoutLogin -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:36 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:37 GMT+07:00" duration-ms="154" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:37 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:37 GMT+07:00" duration-ms="543" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_RegisterThenLogin_When_DataValid()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:37 GMT+07:00" name="should_RegisterThenLogin_When_DataValid" finished-at="2026-10-24T01:33:38 GMT+07:00" duration-ms="1031" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_RegisterThenLogin_When_DataValid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:38 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:38 GMT+07:00" duration-ms="152" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:38 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:39 GMT+07:00" duration-ms="539" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_ShowError_When_LoginWrongPassword()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:39 GMT+07:00" name="should_ShowError_When_LoginWrongPassword" finished-at="2026-10-24T01:33:40 GMT+07:00" duration-ms="730" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_ShowError_When_LoginWrongPassword -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:40 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:40 GMT+07:00" duration-ms="184" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:40 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:40 GMT+07:00" duration-ms="519" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_ShowError_When_RegisterInvalid(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:40 GMT+07:00" name="should_ShowError_When_RegisterInvalid" data-provider="badRegister" finished-at="2026-10-24T01:33:41 GMT+07:00" duration-ms="758" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[ab]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[a@b.com]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[secret1]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[Username phai tu 3 den 50 ky tu]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_ShowError_When_RegisterInvalid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:41 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:41 GMT+07:00" duration-ms="243" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:41 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:42 GMT+07:00" duration-ms="479" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_ShowError_When_RegisterInvalid(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:42 GMT+07:00" name="should_ShowError_When_RegisterInvalid" data-provider="badRegister" finished-at="2026-10-24T01:33:43 GMT+07:00" duration-ms="768" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[validuser1]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[a@b.com]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[123]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[Password phai co it nhat 6 ky tu]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_ShowError_When_RegisterInvalid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:43 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:43 GMT+07:00" duration-ms="218" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:43 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:43 GMT+07:00" duration-ms="498" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method signature="should_ShowError_When_RegisterInvalid(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:43 GMT+07:00" name="should_ShowError_When_RegisterInvalid" data-provider="badRegister" finished-at="2026-10-24T01:33:44 GMT+07:00" duration-ms="780" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[validuser2]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[not-an-email]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[secret1]]>
+              </value>
+            </param>
+            <param index="3">
+              <value>
+                <![CDATA[Email khong hop le]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_ShowError_When_RegisterInvalid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:44 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:44 GMT+07:00" duration-ms="256" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="stopApp()[pri:0, instance:com.example.shop.ui.AuthUiTest@179ece50]" started-at="2026-10-24T01:33:53 GMT+07:00" name="stopApp" finished-at="2026-10-24T01:33:53 GMT+07:00" duration-ms="18" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- stopApp -->
+      </class> <!-- com.example.shop.ui.AuthUiTest -->
+      <class name="com.example.shop.ui.ProductCrudUiTest">
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:44 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:45 GMT+07:00" duration-ms="525" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method is-config="true" signature="registerAndLogin()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:45 GMT+07:00" name="registerAndLogin" finished-at="2026-10-24T01:33:46 GMT+07:00" depends-on-methods="com.example.shop.ui.BaseTest.openBrowser" duration-ms="949" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLogin -->
+        <test-method signature="should_CreateProduct_When_FormValid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:46 GMT+07:00" name="should_CreateProduct_When_FormValid" finished-at="2026-10-24T01:33:46 GMT+07:00" duration-ms="287" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_CreateProduct_When_FormValid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:46 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:46 GMT+07:00" duration-ms="199" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:46 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:47 GMT+07:00" duration-ms="554" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method is-config="true" signature="registerAndLogin()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:47 GMT+07:00" name="registerAndLogin" finished-at="2026-10-24T01:33:48 GMT+07:00" depends-on-methods="com.example.shop.ui.BaseTest.openBrowser" duration-ms="1404" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLogin -->
+        <test-method signature="should_DeleteProduct_When_DeleteClicked()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:48 GMT+07:00" name="should_DeleteProduct_When_DeleteClicked" finished-at="2026-10-24T01:33:49 GMT+07:00" duration-ms="304" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_DeleteProduct_When_DeleteClicked -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:49 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:49 GMT+07:00" duration-ms="211" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:49 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:49 GMT+07:00" duration-ms="514" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method is-config="true" signature="registerAndLogin()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:49 GMT+07:00" name="registerAndLogin" finished-at="2026-10-24T01:33:50 GMT+07:00" depends-on-methods="com.example.shop.ui.BaseTest.openBrowser" duration-ms="995" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLogin -->
+        <test-method signature="should_ShowFieldErrors_When_CreateInvalid()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:50 GMT+07:00" name="should_ShowFieldErrors_When_CreateInvalid" finished-at="2026-10-24T01:33:50 GMT+07:00" duration-ms="224" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_ShowFieldErrors_When_CreateInvalid -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:50 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:51 GMT+07:00" duration-ms="194" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+        <test-method is-config="true" signature="openBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:51 GMT+07:00" name="openBrowser" finished-at="2026-10-24T01:33:51 GMT+07:00" duration-ms="528" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openBrowser -->
+        <test-method is-config="true" signature="registerAndLogin()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:51 GMT+07:00" name="registerAndLogin" finished-at="2026-10-24T01:33:52 GMT+07:00" depends-on-methods="com.example.shop.ui.BaseTest.openBrowser" duration-ms="975" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- registerAndLogin -->
+        <test-method signature="should_UpdateProduct_When_EditSaved()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:52 GMT+07:00" name="should_UpdateProduct_When_EditSaved" finished-at="2026-10-24T01:33:53 GMT+07:00" duration-ms="479" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- should_UpdateProduct_When_EditSaved -->
+        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:com.example.shop.ui.ProductCrudUiTest@4116aac9]" started-at="2026-10-24T01:33:53 GMT+07:00" name="closeBrowser" finished-at="2026-10-24T01:33:53 GMT+07:00" duration-ms="206" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- closeBrowser -->
+      </class> <!-- com.example.shop.ui.ProductCrudUiTest -->
+    </test> <!-- UI tests -->
+  </suite> <!-- ShopUiSuite -->
+</testng-results>
