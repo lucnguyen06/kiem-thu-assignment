@@ -5,5 +5,5 @@ cd /d "%~dp0"
 echo ==============================================
 echo Chay Unit va Controller Tests (JUnit 5) - Java 25 LTS
 echo ==============================================
-call mvnw.cmd clean test
+call .\mvnw.cmd clean test
 pause

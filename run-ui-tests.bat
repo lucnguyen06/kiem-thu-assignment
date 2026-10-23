@@ -5,5 +5,5 @@ cd /d "%~dp0"
 echo ==============================================
 echo Chay Selenium UI Tests (TestNG POM) - Java 25 LTS
 echo ==============================================
-call mvnw.cmd test -Pui
+call .\mvnw.cmd test -Pui
 pause
