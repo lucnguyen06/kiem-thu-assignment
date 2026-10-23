@@ -1,6 +1,10 @@
 package com.example.shop.ui;
 
 import com.example.shop.ShopApplication;
+import com.example.shop.ui.pages.LoginPage;
+import com.example.shop.ui.pages.ProductFormPage;
+import com.example.shop.ui.pages.ProductsPage;
+import com.example.shop.ui.pages.RegisterPage;
 import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -26,6 +30,11 @@ public abstract class BaseTest {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
+    protected RegisterPage registerPage;
+    protected LoginPage loginPage;
+    protected ProductsPage productsPage;
+    protected ProductFormPage productFormPage;
+
     @BeforeSuite(alwaysRun = true)
     public void startApp() {
         context = SpringApplication.run(ShopApplication.class, "--server.port=0");
@@ -50,6 +59,11 @@ public abstract class BaseTest {
         options.addArguments("--no-sandbox", "--disable-dev-shm-usage", "--window-size=1280,900");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        registerPage = new RegisterPage(driver, wait);
+        loginPage = new LoginPage(driver, wait);
+        productsPage = new ProductsPage(driver, wait);
+        productFormPage = new ProductFormPage(driver, wait);
     }
 
     @AfterMethod(alwaysRun = true)

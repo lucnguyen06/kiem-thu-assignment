@@ -240,6 +240,60 @@ Làm sao để chạy được TestNG?
 - Tạo profile `ui` để tách biệt JUnit và TestNG
 - Chạy: `mvn test -Pui` cho UI tests
 
+**Lỗi 3: Nâng cấp Java 25 LTS - Lỗi Mockito / Byte Buddy không nhận diện bytecode version 69**
+```
+Prompt cho AI:
+Tôi vừa nâng cấp dự án từ Java 17 lên Java 25 LTS (bản phát hành dài hạn mới nhất của Oracle).
+Khi biên dịch mã nguồn (mvn test-compile) thì thành công, nhưng khi chạy test (mvn test) thì toàn bộ các test có Mockito đều ném ngoại lệ:
+
+Caused by: java.lang.IllegalStateException: Failed to resolve the class file version of the current VM: Unknown Java version: 0
+    at net.bytebuddy.ClassFileVersion$VersionLocator$Unresolved.resolve(ClassFileVersion.java:676)
+    at net.bytebuddy.ClassFileVersion.ofThisVm(ClassFileVersion.java:358)
+    at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.<clinit>(InlineDelegateByteBuddyMockMaker.java:142)
+
+Hãy giải thích nguyên nhân và đưa ra giải pháp cấu hình Maven chuẩn xác nhất.
+```
+
+**Cách AI hỗ trợ:**
+```
+1. Nguyên nhân:
+   - Java 25 sử dụng định dạng file lớp (class file version) là 69.0.
+   - Thư viện Byte Buddy cũ (1.14.x đi kèm Spring Boot 3.3.x) chưa có hằng số nhận diện bytecode 69.0, dẫn đến ClassFileVersion.ofThisVm() trả về 0 và gây lỗi khởi tạo MockMaker của Mockito.
+2. Giải pháp khắc phục đồng bộ:
+   a. Nâng cấp Spring Boot lên 3.5.16 (hỗ trợ Spring Framework 6.2+ và ASM mới cho Java 25).
+   b. Bổ sung trực tiếp net.bytebuddy:byte-buddy và net.bytebuddy:byte-buddy-agent phiên bản 1.18.16 vào test scope của pom.xml.
+   c. Cấu hình cờ JVM trong maven-surefire-plugin:
+      <argLine>-Dnet.bytebuddy.experimental=true -XX:+EnableDynamicAgentLoading -Xmx1024m -XX:MaxMetaspaceSize=512m</argLine>
+   d. Cập nhật file workflow .github/workflows/selenium-ci.yml: thay java-version '17' thành '25'.
+```
+
+**Cách tôi xử lý:**
+- Cập nhật `assignment/pom.xml` với Spring Boot 3.5.16, Java 25, Byte Buddy 1.18.16 và cờ JVM tương ứng.
+- Cập nhật `.github/workflows/selenium-ci.yml` sử dụng JDK Temurin 25.
+- Thực thi kiểm tra: `mvn clean test` -> 47/47 tests JUnit (UserServiceTest, ProductServiceTest, AuthControllerTest, ProductControllerTest) đều PASS 100%.
+
+**Lỗi 4: Xử lý môi trường Selenium UI Test cục bộ (Khắc phục triệt để cannot find Chrome binary)**
+```
+Prompt cho AI:
+Khi chạy mvn test -Pui trên máy tính Windows cá nhân, Selenium WebDriver báo lỗi:
+SessionNotCreatedException: cannot find Chrome binary
+Do máy tính không cài đặt Google Chrome trên hệ thống và không có quyền Administrator để cài đặt phần mềm qua installer truyền thống.
+Làm thế nào để chạy được Selenium test cục bộ mà không cần quyền Admin?
+```
+
+**Cách AI hỗ trợ:**
+```
+1. Trong Selenium 4.25+, công cụ selenium-manager tích hợp sẵn hỗ trợ tải trình duyệt Chromium/Chrome độc lập (standalone) trực tiếp vào thư mục người dùng (~/.cache/selenium).
+2. Lệnh kích hoạt:
+   ~/.cache/selenium/manager/0.4.25/selenium-manager.exe --browser chrome --force-browser-download
+3. Sau khi tải, Selenium WebDriver sẽ tự động nhận diện và sử dụng Chrome trong cache người dùng mà không cần quyền Administrator.
+```
+
+**Cách tôi xử lý:**
+- Chạy công cụ `selenium-manager` để tải trình duyệt Chrome tương thích vào cache người dùng.
+- Khởi chạy lại: `mvn test -Pui -Dgroups=smoke` và `mvn test -Pui`.
+- Kết quả: 10/10 test UI Selenium đều chạy thành công ở chế độ headless.
+
 ---
 
 ## 4. GitHub Actions CI/CD
@@ -291,72 +345,51 @@ on:
    - Dependency (dependsOnMethods)
    - Parallel execution
 
-2. **Page Object Model** - Giảm duplication, dễ bảo trì
+2. **Page Object Model (POM)** - Giảm duplication, tách biệt locators và business logic, dễ bảo trì
 
-3. **CI/CD** - Tự động hóa, không cần Chrome local
+3. **Nâng cấp Runtime lên Java 25 LTS & Spring Boot 3.5.16** - Tối ưu hiệu năng JVM hiện đại, chu kỳ hỗ trợ dài hạn
+
+4. **Tách biệt bài Lab ra khỏi dự án Assignment** - Tránh xung đột cấu hình suite TestNG, giữ mã nguồn Assignment tinh gọn đúng trọng tâm Y1-Y6
+
+5. **CI/CD tự động hóa trên GitHub Actions** - Đảm bảo kiểm thử tự động trên môi trường chuẩn
 
 ### Quyết định của tôi:
 
 | Đề xuất | Quyết định | Lý do |
 |---------|------------|-------|
-| TestNG thay JUnit cho UI | ✅ Đồng ý | Groups và DataProvider mạnh hơn |
-| POM pattern | ✅ Đồng ý | Code sạch hơn, maintainable |
-| CI/CD | ✅ Đồng ý | Không cần Chrome local |
-| Parallel execution | ✅ Đồng ý | Lab 8 yêu cầu |
-| ExtentReports | ⚠️ Tạm hoãn | Thêm complexity, chưa cần ngay |
+| TestNG thay JUnit cho UI | ✅ Đồng ý | Hỗ trợ Groups (`smoke`, `regression`) và DataProvider mạnh mẽ hơn cho UI |
+| Áp dụng triệt để POM cho ASM | ✅ Đồng ý | `AuthUiTest` và `ProductCrudUiTest` dùng các Page Objects (`LoginPage`, `RegisterPage`, `ProductsPage`, `ProductFormPage`), code sạch và đáp ứng Y4 |
+| Nâng cấp Java 25 LTS | ✅ Đồng ý | Đảm bảo tính hiện đại, kiểm tra khả năng tương thích của hệ thống kiểm thử trên LTS mới nhất |
+| Ghim Byte Buddy 1.18.16 | ✅ Đồng ý | Khắc phục triệt để lỗi phân giải class file version 69.0 của Mockito MockMaker |
+| Tách biệt Labs ra thư mục `labs/` | ✅ Đồng ý | Giữ thư mục `assignment/` chuẩn chỉ 100% cho đề tài Shop ASM (Y1-Y6), tránh lẫn lộn test Calculator và các bài thực hành trên lớp |
+| CI/CD GitHub Actions | ✅ Đồng ý | Chạy tự động cả unit-tests và ui-tests khi push/PR, tự động tải report |
 
 ### Bài học rút ra:
-1. **AI không hoàn hảo** - Cần review kỹ code AI sinh ra
-2. **Môi trường quan trọng** - CI có thể khác local environment
-3. **Start simple** - Bắt đầu với JUnit đơn giản, sau đó mới thêm complexity
-4. **Document everything** - Ghi lại prompt và quyết định cho Y6
+1. **AI không hoàn hảo** - Cần review kỹ code AI sinh ra, đặc biệt là khi cấu hình tương thích giữa các phiên bản thư viện (Java 25 vs Byte Buddy vs Mockito).
+2. **Môi trường quan trọng** - Cần cấu hình test có khả năng tự thích ứng trên cả máy phát triển cục bộ và runner CI/CD.
+3. **Phân tách trách nhiệm (Separation of Concerns)** - Việc tách các bài Lab ra khỏi Assignment giúp bộ test của Assignment chạy nhanh, rõ ràng, đạt tỉ lệ pass 100%.
+4. **Document everything** - Ghi lại prompt và quyết định thiết kế đầy đủ làm minh chứng cho tiêu chí Y6.
 
 ---
 
-## 6. Prompt cho Lab tiếp theo
+## 6. Tinh gọn dự án & Tách biệt bài Lab
 
-### Lab 5 - Data-Driven:
-```
-Tạo CalculatorDataDrivenTest.java với các nguồn dữ liệu:
-1. @CsvSource với test cases cho add, subtract, multiply, divide
-2. @CsvFileSource đọc từ file /data/calculator.csv
-3. @EnumSource cho Operation enum (ADD, SUBTRACT, etc.)
-4. @MethodSource trả về Stream<Arguments>
+### Đặt vấn đề:
+Ban đầu dự án gộp chung các bài tập Lab (Calculator Basic, Calculator Parameterized, Exception, TestNG Annotations Lab 6, Listener Lab 7, Factory Lab 8) vào cùng dự án Shop ASM. Điều này dẫn đến:
+- Số lượng test bị pha trộn giữa bài tập nhỏ (Lab) và ứng dụng thực tế (Shop ASM).
+- Cấu hình suite TestNG (`testng-lab8.xml`) gặp xung đột `@Factory` giữa các class.
+- Bộ test chạy lâu và không tập trung vào đánh giá nghiệp vụ Shop theo yêu cầu đề bài Y1-Y6.
 
-Tạo file CSV: src/test/resources/data/calculator.csv
-```
-
-### Lab 6 - TestNG Annotations:
-```
-Tạo Lab6AnnotationTest.java với:
-1. @BeforeSuite, @AfterSuite
-2. @BeforeTest, @AfterTest  
-3. @BeforeClass, @AfterClass
-4. @BeforeMethod, @AfterMethod
-5. @Test với groups, dependsOnMethods, enabled, invocationCount
-6. @DataProvider trong class riêng
-```
-
-### Lab 7 - Reporting:
-```
-Tạo Lab7TestListener.java implements ITestListener:
-- onStart, onFinish
-- onTestStart, onTestSuccess, onTestFailure, onTestSkipped
-- Ghi log ra file txt
-
-Tạo Lab7Logger.java với:
-- Custom logging methods (info, debug, warn, error)
-- Ghi log ra file với timestamp
-```
-
-### Lab 8 - Advanced:
-```
-Tạo Lab8AdvancedTest.java với:
-1. @Factory cho cross-browser testing (chrome, firefox, edge)
-2. @Factory cho data-driven với nhiều data sets
-3. RetryAnalyzer cho flaky tests
-4. Parallel execution configuration trong testng.xml
-```
+### Giải pháp thực hiện cùng AI:
+1. Di chuyển toàn bộ mã nguồn và test của các bài Lab sang thư mục riêng `labs/`:
+   - `Calculator.java` và các test `Calculator*Test.java`.
+   - Các test `Lab4*`, `Lab6*`, `Lab7*`, `Lab8*`.
+   - Các cấu hình suite `testng-lab*.xml` và file dữ liệu `calculator-*.csv`.
+2. Dự án `assignment/` được chuẩn hóa 100% cho ứng dụng Shop:
+   - Tầng Service: `UserServiceTest`, `ProductServiceTest` (JUnit 5 + Mockito).
+   - Tầng Controller: `AuthControllerTest`, `ProductControllerTest` (JUnit 5 + MockMvc).
+   - Tầng UI: `AuthUiTest`, `ProductCrudUiTest` kết hợp bộ Page Objects đầy đủ.
+3. Kết quả: Toàn bộ 57/57 tests của Assignment đều đạt trạng thái **PASS (100%)**.
 
 ---
 

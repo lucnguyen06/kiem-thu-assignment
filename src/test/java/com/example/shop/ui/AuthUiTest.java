@@ -9,33 +9,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-/** Y4: dang ky / dang nhap bang Selenium. */
+/** Y4: dang ky / dang nhap bang Selenium su dung Page Object Model. */
 public class AuthUiTest extends BaseTest {
-
-    private void register(String user, String email, String pass) {
-        driver.get(baseUrl + "/register");
-        driver.findElement(By.id("username")).sendKeys(user);
-        driver.findElement(By.id("email")).sendKeys(email);
-        driver.findElement(By.id("password")).sendKeys(pass);
-        driver.findElement(By.id("register-btn")).click();
-    }
-
-    private void login(String user, String pass) {
-        driver.get(baseUrl + "/login");
-        driver.findElement(By.id("username")).sendKeys(user);
-        driver.findElement(By.id("password")).sendKeys(pass);
-        driver.findElement(By.id("login-btn")).click();
-    }
 
     @Test(groups = {"smoke", "auth"})
     public void should_RegisterThenLogin_When_DataValid() {
         String user = "u" + UUID.randomUUID().toString().substring(0, 8);
-        register(user, user + "@mail.com", "secret1");
+        registerPage.open(baseUrl);
+        registerPage.register(user, user + "@mail.com", "secret1");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("msg-registered")));
 
-        login(user, "secret1");
+        loginPage.login(user, "secret1");
         wait.until(ExpectedConditions.urlContains("/products"));
-        assertEquals(driver.findElement(By.id("current-user")).getText(), user);
+        assertEquals(productsPage.getCurrentUser(), user);
     }
 
     @DataProvider(name = "badRegister")
@@ -49,22 +35,24 @@ public class AuthUiTest extends BaseTest {
 
     @Test(groups = {"regression", "auth"}, dataProvider = "badRegister")
     public void should_ShowError_When_RegisterInvalid(String u, String e, String p, String expected) {
-        register(u, e, p);
+        registerPage.open(baseUrl);
+        registerPage.register(u, e, p);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("error")));
-        assertEquals(driver.findElement(By.id("error")).getText(), expected);
+        assertEquals(registerPage.getErrorMessage(), expected);
     }
 
     @Test(groups = {"smoke", "auth"})
     public void should_ShowError_When_LoginWrongPassword() {
-        login("nouser", "wrongpass");
+        loginPage.open(baseUrl);
+        loginPage.login("nouser", "wrongpass");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("error")));
-        assertEquals(driver.findElement(By.id("error")).getText(), "Dang nhap khong thanh cong");
+        assertEquals(loginPage.getErrorMessage(), "Dang nhap khong thanh cong");
     }
 
     @Test(groups = {"regression", "auth"})
     public void should_RedirectToLogin_When_OpenProductsWithoutLogin() {
-        driver.get(baseUrl + "/products");
+        productsPage.open(baseUrl);
         wait.until(ExpectedConditions.urlContains("/login"));
-        assertTrue(driver.getCurrentUrl().contains("/login"));
+        assertTrue(loginPage.isOnLoginPage());
     }
 }

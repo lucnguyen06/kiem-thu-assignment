@@ -58,67 +58,37 @@
 
 | Cấp độ | Công cụ | Vị trí |
 |--------|---------|---------|
-| Unit (Calculator) | JUnit 5 | src/test/java/.../lab |
-| Unit (Service) | JUnit 5 + Mockito | src/test/java/.../shop/service |
-| Controller | JUnit 5 + MockMvc | src/test/java/.../shop/controller |
-| UI | Selenium + TestNG | src/test/java/.../shop/ui |
+| Unit (Service) | JUnit 5 + Mockito | src/test/java/com/example/shop/service |
+| Controller (MockMvc) | JUnit 5 + MockMvc | src/test/java/com/example/shop/controller |
+| UI (Page Object Model) | Selenium + TestNG | src/test/java/com/example/shop/ui |
 
 ## 5. Test Groups
 
 | Nhóm | Mô tả | Ví dụ test |
 |------|-------|------------|
 | smoke | Tests quan trọng, chạy nhanh | login hợp lệ, tạo sản phẩm |
-| regression | Toàn bộ tests | tất cả UI tests |
-| auth | Tests liên quan đăng nhập | login, register, logout |
-| product | Tests liên quan sản phẩm | CRUD sản phẩm |
-| e2e | End-to-end flows | đăng ký → đăng nhập → tạo sản phẩm |
-| lab1 - lab8 | Lab assignments | CalculatorBasicTest, POM tests, etc. |
+| regression | Toàn bộ UI tests | tất cả UI test cases (boundary, invalid error, CRUD) |
+| auth | Tests liên quan xác thực | login, register, redirect |
+| product | Tests liên quan sản phẩm | Create, Read, Update, Delete sản phẩm |
 
 ## 6. Lệnh chạy
 
-### JUnit (tất cả unit + controller)
+### JUnit 5 (Unit & Controller tests)
 ```bash
+# Chạy tất cả test Service và Controller
 mvn test
 ```
-Hoặc chỉ JUnit:
-```bash
-mvn test -Dtest=*Test -DexcludedGroups=ui
-```
 
-### TestNG (UI tests)
+### TestNG (Selenium UI tests với Page Object Model)
 ```bash
-# Tất cả UI tests
+# Chạy toàn bộ UI tests
 mvn test -Pui
 
-# Chỉ nhóm smoke
+# Chỉ chạy nhóm smoke
 mvn test -Pui -Dgroups=smoke
 
-# Có giao diện (không headless)
+# Chạy có giao diện trình duyệt (không headless)
 mvn test -Pui -Dgroups=smoke -Dheadless=false
-
-# Chạy suite cụ thể
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab4.xml
-```
-
-### Lab-specific
-```bash
-# Lab 1: JUnit cơ bản
-mvn test -Dtest=CalculatorBasicTest
-
-# Lab 4: Page Object Model
-mvn test -Pui -Dgroups=lab4
-
-# Lab 5: Data-Driven
-mvn test -Dtest=CalculatorDataDrivenTest
-
-# Lab 6: TestNG Annotations
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab6.xml
-
-# Lab 7: Reporting
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab7.xml
-
-# Lab 8: Advanced
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab8.xml
 ```
 
 ## 7. Tiêu chí nghiệm thu
@@ -154,4 +124,4 @@ mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab8.xml
 - [x] Test Cases (docs/TestCases.md)
 - [x] AI Log (docs/AI_Log.md)
 - [x] CI/CD Workflow (.github/workflows/selenium-ci.yml)
-- [x] Test Suites XML (src/test/resources/testng-*.xml)
+- [x] Test Suite XML (src/test/resources/testng.xml)

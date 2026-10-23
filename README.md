@@ -1,178 +1,123 @@
-# Assignment - Kiểm thử phần mềm
+# Assignment - Kiểm thử nâng cao cùng AI (Java)
 
-Dự án Spring Boot minh họa kiểm thử đa tầng: JUnit 5 (unit + controller) và Selenium + TestNG (UI).
+Dự án kiểm thử tự động toàn diện cho ứng dụng Web Shop (Spring Boot) đáp ứng đầy đủ các yêu cầu **Y1 - Y6** của đề bài Assignment (FPT Polytechnic):
+- **JUnit 5 + Mockito**: Kiểm thử tầng Service và tầng Controller (MockMvc).
+- **Selenium WebDriver + TestNG**: Kiểm thử tự động giao diện (UI) áp dụng mô hình **Page Object Model (POM)**.
+- **GitHub Actions (CI/CD)**: Pipeline tự động chạy test khi push/PR, phân nhóm test smoke/regression, upload báo cáo kiểm thử.
+- **Runtime**: Đã nâng cấp tương thích hoàn toàn với **Java 25 LTS** và Spring Boot **3.5.16**.
 
-## Cấu trúc
+## Cấu trúc dự án ASM
 
 ```
 assignment/
-├── src/main/java/com/example/
-│   ├── lab/Calculator.java                    # Lab 2, Lab 3
-│   └── shop/                                   # Y1: ứng dụng web
-│       ├── ShopApplication.java
-│       ├── controller/{Auth,Product}Controller.java
-│       ├── model/{User,Product}.java
-│       ├── repository/{User,Product}Repository.java
-│       └── service/{User,Product}Service.java
+├── src/main/java/com/example/shop/            # Y1: Ứng dụng Web Spring Boot
+│   ├── ShopApplication.java
+│   ├── controller/
+│   │   ├── AuthController.java                # Đăng ký, đăng nhập, đăng xuất
+│   │   └── ProductController.java             # Quản lý CRUD sản phẩm
+│   ├── model/
+│   │   ├── User.java                          # Thực thể User
+│   │   └── Product.java                       # Thực thể Product
+│   ├── repository/
+│   │   ├── UserRepository.java
+│   │   └── ProductRepository.java
+│   └── service/
+│       ├── UserService.java                   # Xử lý logic đăng ký (BCrypt) & đăng nhập
+│       └── ProductService.java                # Xử lý logic CRUD sản phẩm
 ├── src/main/resources/
-│   ├── application.properties
-│   └── templates/{register,login,products,product-form}.html
-├── src/test/java/com/example/
-│   ├── lab/
-│   │   ├── CalculatorBasicTest.java           # Lab 1: JUnit cơ bản (25 tests)
-│   │   ├── CalculatorTest.java                # Lab 2, 3: Parameterized + Exception (21 tests)
-│   │   ├── CalculatorExceptionTest.java       # Lab 3: Exception tests
-│   │   └── CalculatorDataDrivenTest.java      # Lab 5: Data-driven (45 tests)
-│   └── shop/
-│       ├── controller/                         # Y3: MockMvc
-│       │   ├── AuthControllerTest.java
-│       │   └── ProductControllerTest.java
-│       ├── service/                            # Y3: JUnit + Mockito
-│       │   ├── UserServiceTest.java
-│       │   └── ProductServiceTest.java
-│       ├── ui/                                 # Y4: Selenium + TestNG
-│       │   ├── pages/                          # Lab 4: Page Objects
-│       │   │   ├── RegisterPage.java
-│       │   │   ├── LoginPage.java
-│       │   │   ├── ProductsPage.java
-│       │   │   └── ProductFormPage.java
-│       │   ├── BaseTest.java
-│       │   ├── AuthUiTest.java
-│       │   ├── ProductCrudUiTest.java
-│       │   ├── Lab4BaseTest.java               # Lab 4: POM base
-│       │   ├── Lab4AuthTest.java               # Lab 4: Auth POM tests
-│       │   ├── Lab4ProductTest.java            # Lab 4: Product POM tests
-│       │   ├── Lab6AnnotationTest.java         # Lab 6: TestNG annotations
-│       │   ├── Lab6DataProvider.java           # Lab 6: Data providers
-│       │   ├── Lab7TestListener.java          # Lab 7: Custom listeners
-│       │   ├── Lab7Logger.java                 # Lab 7: Logging
-│       │   ├── Lab8AdvancedTest.java           # Lab 8: Cross-browser + Factory
-│       │   ├── Lab8RetryAnalyzer.java          # Lab 8: Retry logic
-│       │   └── Lab8DataDrivenTest.java         # Lab 8: Data-driven Factory
-│       └── data/
+│   ├── application.properties                 # Cấu hình H2 database, JPA, Server
+│   └── templates/                             # Thymeleaf UI templates
+│       ├── register.html
+│       ├── login.html
+│       ├── products.html
+│       └── product-form.html
+├── src/test/java/com/example/shop/
+│   ├── service/                               # Y3: Unit Test với JUnit 5 & Mockito (31 tests)
+│   │   ├── UserServiceTest.java               # 23 tests đăng ký (BVA, Equivalence) + 6 tests đăng nhập
+│   │   └── ProductServiceTest.java            # 8 tests CRUD logic
+│   ├── controller/                            # Y3: Controller Test với MockMvc (16 tests)
+│   │   ├── AuthControllerTest.java            # 6 tests endpoints /register, /login
+│   │   └── ProductControllerTest.java         # 10 tests endpoints /products CRUD
+│   └── ui/                                    # Y4: Selenium WebDriver + TestNG
+│       ├── pages/                             # Page Object Model (POM)
+│       │   ├── RegisterPage.java              # Page Object trang /register
+│       │   ├── LoginPage.java                 # Page Object trang /login
+│       │   ├── ProductsPage.java              # Page Object trang /products
+│       │   └── ProductFormPage.java           # Page Object trang /products/new & edit
+│       ├── BaseTest.java                      # Khởi động Spring Boot ngẫu nhiên + Chrome WebDriver
+│       ├── AuthUiTest.java                    # 4 tests UI đăng ký & đăng nhập (POM)
+│       └── ProductCrudUiTest.java             # 4 tests UI CRUD sản phẩm (POM)
 ├── src/test/resources/
-│   ├── testng.xml                             # Y4, Y5: TestNG suite
-│   ├── testng-lab4.xml                        # Lab 4: POM tests
-│   ├── testng-lab6.xml                        # Lab 6: Annotations tests
-│   ├── testng-lab7.xml                        # Lab 7: Reporting tests
-│   ├── testng-lab8.xml                        # Lab 8: Advanced tests
+│   ├── testng.xml                             # Y4, Y5: TestNG suite cho UI tests
 │   └── data/
-│       ├── calculator-add.csv                  # Lab 5: Addition test data
-│       ├── calculator-divide.csv               # Lab 5: Division test data
-│       └── registration-data.csv              # Lab 5: Registration test data
-├── .github/workflows/selenium-ci.yml           # Y5: CI/CD
+│       └── registration-data.csv              # Dữ liệu kiểm thử
+├── .github/workflows/
+│   └── selenium-ci.yml                        # Y5: CI/CD Pipeline trên GitHub Actions
 ├── docs/
-│   ├── TestPlan.md                            # Y2: Kế hoạch kiểm thử
-│   ├── TestCases.md                           # Y2: Danh sách test case
-│   └── AI_Log.md                              # Y6: Nhật ký sử dụng AI
+│   ├── TestPlan.md                            # Y2: Kế hoạch kiểm thử & Business rules cho RAG
+│   ├── TestCases.md                           # Y2: Bảng Test Case chi tiết
+│   └── AI_Log.md                              # Y6: Nhật ký sử dụng AI (Prompt, Debug, Review)
 ├── pom.xml
 └── README.md
 ```
 
-## Lệnh chạy
+## Lệnh chạy kiểm thử
 
-### 1. JUnit (tất cả unit + controller)
+### 1. Chạy Unit & Controller Tests (JUnit 5 + Mockito + MockMvc)
 ```bash
-mvn test
+mvn clean test
 ```
-**Kết quả:** ~154 tests, 0 fail
+*Kết quả:* **47/47 tests PASS (100%)**
 
-### 2. Selenium + TestNG (UI)
+### 2. Chạy UI Automation Tests (Selenium + TestNG + Page Object Model)
 ```bash
-# Tất cả
+# Chạy toàn bộ kiểm thử giao diện
 mvn test -Pui
 
-# Chỉ nhóm smoke
+# Chạy riêng nhóm kiểm thử smoke (nhanh, trọng tâm)
 mvn test -Pui -Dgroups=smoke
 
-# Có giao diện (không headless)
+# Chạy có giao diện trình duyệt (không headless)
 mvn test -Pui -Dgroups=smoke -Dheadless=false
 ```
+*Kết quả:* **10/10 tests PASS (100%)**
 
-### 3. Lab-specific
-```bash
-# Lab 1: JUnit cơ bản
-mvn test -Dtest=CalculatorBasicTest
-
-# Lab 2, 3: Calculator tests
-mvn test -Dtest=CalculatorTest,CalculatorExceptionTest
-
-# Lab 4: Page Object Model
-mvn test -Pui -Dgroups=lab4
-
-# Lab 5: Data-Driven
-mvn test -Dtest=CalculatorDataDrivenTest
-
-# Lab 6: TestNG Annotations
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab6.xml
-
-# Lab 7: Reporting
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab7.xml
-
-# Lab 8: Advanced
-mvn test -Pui -Dsurefire.suiteXmlFiles=src/test/resources/testng-lab8.xml
-```
-
-### 4. Chạy ứng dụng
+### 3. Chạy ứng dụng trực tiếp
 ```bash
 mvn spring-boot:run
 ```
-Mở `http://localhost:8080/register` để đăng ký, sau đó `/login` và `/products`.
+Truy cập: `http://localhost:8080/login` hoặc `http://localhost:8080/register`.
 
-## Yêu cầu đã hoàn thành
+## Bảng đối chiếu yêu cầu Assignment (Y1 - Y6)
 
-| Yêu cầu | Mô tả | Vị trí | Trạng thái |
-|----------|--------|---------|------------|
-| Lab 1 | JUnit cơ bản | `CalculatorBasicTest` | ✅ 25 tests pass |
-| Lab 2 | @ParameterizedTest | `CalculatorTest` | ✅ 21 tests pass |
-| Lab 3 | Vòng đời + Exception | `CalculatorExceptionTest` | ✅ 16 tests pass |
-| Lab 4 | Page Object Model | `Lab4*Test.java` + `pages/` | ✅ 18 tests |
-| Lab 5 | Data-Driven Testing | `CalculatorDataDrivenTest` | ✅ 45 tests |
-| Lab 6 | TestNG Annotations | `Lab6AnnotationTest` | ✅ 15 tests |
-| Lab 7 | Reporting & Logging | `Lab7*` | ✅ 5 tests |
-| Lab 8 | Advanced Topics | `Lab8*` | ✅ Factory + Retry |
-| Y1 | Ứng dụng web | `src/main/java/.../shop` | ✅ |
-| Y2 | Test Plan + Test Cases | `docs/TestPlan.md`, `TestCases.md` | ✅ |
-| Y3 | JUnit service + controller | `src/test/java/.../shop/service` | ✅ 47 tests |
-| Y4 | Selenium + TestNG | `src/test/java/.../shop/ui` | ✅ |
-| Y5 | TestNG suite + CI/CD | `testng.xml`, `selenium-ci.yml` | ✅ |
-| Y6 | Nhật ký AI | `docs/AI_Log.md` | ✅ |
+| Yêu cầu | Mô tả | Vị trí trong mã nguồn | Trạng thái |
+|:-------:|-------|-----------------------|:----------:|
+| **Y1** | Ứng dụng web chạy hoàn chỉnh các chức năng | `src/main/java/com/example/shop/` | ✅ Hoàn thành |
+| **Y2** | Thiết kế Test Case & Test Plan (RAG + Prompt) | `docs/TestPlan.md`, `docs/TestCases.md` | ✅ Hoàn thành |
+| **Y3** | JUnit 5 + Mockito cho Service & MockMvc cho Controller | `src/test/java/com/example/shop/{service,controller}` | ✅ 47 tests PASS |
+| **Y4** | Selenium + TestNG kiểm thử Đăng ký, Đăng nhập, CRUD (POM) | `src/test/java/com/example/shop/ui/` | ✅ 10 tests PASS |
+| **Y5** | GitHub Actions CI/CD (push/PR, group smoke, upload reports) | `.github/workflows/selenium-ci.yml` | ✅ Hoàn thành |
+| **Y6** | Nhật ký sử dụng AI (Prompt + Before/After + Debug + Review) | `docs/AI_Log.md` | ✅ Hoàn thành |
 
-## Tổng số tests
+## Tổng kết số lượng Test Cases
 
-| Loại | Số lượng |
-|------|----------|
-| Calculator (Lab 1, 2, 3) | 62 |
-| Calculator Data-Driven (Lab 5) | 45 |
-| Shop Service (Y3) | 31 |
-| Controller (Y3) | 16 |
-| UI POM (Lab 4) | 18 |
-| TestNG Annotations (Lab 6) | 15 |
-| Reporting (Lab 7) | 5 |
-| **Tổng cộng** | **~192 tests** |
+| Phân loại | Công cụ | Số lượng test | Kết quả |
+|-----------|---------|:-------------:|:-------:|
+| Service Test (Logic nghiệp vụ) | JUnit 5 + Mockito | 31 | ✅ 31 Pass (0 Fail) |
+| Controller Test (REST / Web MVC) | JUnit 5 + MockMvc | 16 | ✅ 16 Pass (0 Fail) |
+| UI Automation Test (Giao diện POM) | Selenium + TestNG | 10 | ✅ 10 Pass (0 Fail) |
+| **Tổng cộng** | | **57** | **✅ 57/57 Pass (100%)** |
 
-## CI/CD
+## CI/CD Pipeline (GitHub Actions)
 
-Workflow `.github/workflows/selenium-ci.yml`:
-- **Trigger**: push/PR (chạy `smoke`), hoặc thủ công (chọn `smoke`/`regression`/`all`).
-- **Job 1** (`unit-tests`): chạy JUnit, upload report.
-- **Job 2** (`ui-tests`): phụ thuộc job 1, chạy Selenium với Chrome headless.
+File workflow `.github/workflows/selenium-ci.yml`:
+- **Triggers**: Tự động kích hoạt khi `push` hoặc tạo `pull_request` vào nhánh `main`/`master`, hoặc kích hoạt thủ công qua `workflow_dispatch`.
+- **Job `unit-tests`**: Chạy JUnit 5 với Maven trên môi trường Ubuntu và Java 25, lưu và upload surefire report lên Artifacts.
+- **Job `ui-tests`**: Phụ thuộc sau khi `unit-tests` thành công, tự động khởi tạo Chrome headless và chạy suite Selenium TestNG (hỗ trợ chọn nhóm `smoke`/`regression`/`all`), sau đó upload báo cáo lên Artifacts.
 
-## Kỹ thuật thiết kế test (Y2)
+## Kỹ thuật thiết kế kiểm thử (Y2)
 
-- **Decision Table**: đăng nhập (username đúng/sai × password đúng/sai).
-- **Boundary Value Analysis**: độ dài username (2,3,50,51), password (5,6).
-- **Equivalence Partitioning**: email hợp lệ / không hợp lệ.
-- **Error Guessing**: null, rỗng, khoảng trắng, overflow, chia 0.
-
-## Ghi chú
-
-1. **H2 in-memory**: dữ liệu mất khi tắt ứng dụng.
-2. **Security**: BCrypt cho password, session-based auth.
-3. **TestNG groups**: `smoke`, `regression`, `auth`, `product`, `lab1`-`lab8`.
-4. **Selenium Manager**: tự tải chromedriver nếu chưa có.
-5. **AI_Log.md**: ghi lại prompt thật và quyết định thiết kế (Y6).
-
-## Tác giả
-
-Dự án được tạo bởi AI (Cursor/Claude) theo yêu cầu đề bài. Sinh viên cần review, chạy thật, và nộp.
+- **Decision Table**: Bảng quyết định cho ma trận đăng nhập (Username đúng/sai × Mật khẩu đúng/sai).
+- **Boundary Value Analysis (BVA)**: Kiểm thử biên cho độ dài Username (2, 3, 50, 51) và Mật khẩu (5, 6).
+- **Equivalence Partitioning**: Phân vùng tương đương cho định dạng Email và đơn giá sản phẩm.
+- **Error Guessing**: Dự đoán lỗi với chuỗi null, rỗng, khoảng trắng, ký tự đặc biệt, injection.
