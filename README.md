@@ -121,3 +121,11 @@ File workflow `.github/workflows/selenium-ci.yml`:
 - **Boundary Value Analysis (BVA)**: Kiểm thử biên cho độ dài Username (2, 3, 50, 51) và Mật khẩu (5, 6).
 - **Equivalence Partitioning**: Phân vùng tương đương cho định dạng Email và đơn giá sản phẩm.
 - **Error Guessing**: Dự đoán lỗi với chuỗi null, rỗng, khoảng trắng, ký tự đặc biệt, injection.
+
+## Ghi chú
+
+1. **Cơ sở dữ liệu**: Hỗ trợ MySQL (XAMPP) cho môi trường thực tế và H2 in-memory cho môi trường kiểm thử tự động.
+2. **Security**: Mật khẩu được mã hóa an toàn bằng BCrypt, bảo vệ phiên làm việc (Session-based Auth Guard).
+3. **TestNG Groups**: Phân loại test theo `smoke`, `regression`, `auth`, `product`.
+4. **Selenium Manager**: Tự động quản lý và tải driver trình duyệt tương thích.
+5. **AI_Log.md**: Nhật ký minh chứng sử dụng AI ghi chép đầy đủ prompt và quyết định thiết kế (Y6).
