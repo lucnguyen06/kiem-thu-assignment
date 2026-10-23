@@ -26,7 +26,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "25"
           cache: maven
       - name: Run JUnit tests
         run: mvn -B test
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "25"
           cache: maven
       - name: Thong bao nhom test
         run: echo "Dang chay nhom UI test = ${{ matrix.group }}"
