@@ -86,17 +86,23 @@ mvn clean test
 
 Bạn có thể chạy ứng dụng theo một trong các cách sau:
 
-**Cách 1: Chạy bằng Maven (hoặc Maven Wrapper có sẵn không cần cài Maven)**
+**Cách 1: Chạy bằng Maven Plugin**
 ```bash
-# Sử dụng Maven Wrapper có sẵn trong dự án:
-.\mvnw.cmd spring-boot:run       # Trên Windows
-./mvnw spring-boot:run           # Trên Linux/macOS
-
-# Hoặc nếu máy đã cài đặt Maven toàn cục:
+# Lệnh chuẩn Spring Boot:
 mvn spring-boot:run
+
+# Hoặc dùng Maven Plugin in-process (tránh lỗi đường dẫn tiếng Việt trên Windows):
+mvn exec:java
 ```
 
-**Cách 2: Chạy nhanh bằng kịch bản Windows (Khuyên dùng)**
+> ⚠️ **Lưu ý quan trọng về đường dẫn thư mục trên Windows**:
+> Nếu thư mục chứa dự án có dấu tiếng Việt (ví dụ: `.../kiểm thử/...`), lệnh `mvn spring-boot:run` có thể báo lỗi `ClassNotFoundException` do tiến trình con bị mã hóa sai đường dẫn thành `ki?m th?`.
+> Để khắc phục, bạn có thể:
+> 1. Đổi tên thư mục cha thành không dấu (ví dụ: `kiem-thu`).
+> 2. Hoặc chạy lệnh `mvn exec:java` (chạy in-process mượt mà không fork tiến trình).
+> 3. Hoặc dùng **Cách 2** (Khuyên dùng).
+
+**Cách 2: Chạy nhanh bằng kịch bản Windows (Khuyên dùng - Không bị lỗi đường dẫn tiếng Việt)**
 - Click đúp vào file **`run-app.bat`** ở thư mục gốc dự án (kịch bản tự động kiểm tra và giải phóng cổng 8080 nếu bị chiếm dụng, đóng gói JAR và khởi động ứng dụng với Java 25 LTS).
 
 **Cách 3: Chạy trực tiếp qua file JAR đã đóng gói**
