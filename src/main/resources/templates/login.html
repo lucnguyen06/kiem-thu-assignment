@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dang nhap</title>
+    <title>Đăng nhập</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -210,34 +210,40 @@
 <div class="auth-container">
     <div class="brand-header">
         <div class="brand-logo">🛍️</div>
-        <h1>Dang nhap</h1>
+        <h1>Đăng nhập</h1>
         <p class="brand-desc">Chào mừng bạn quay lại hệ thống quản lý Shop</p>
     </div>
 
     <!-- Thông báo kết quả -->
     <p id="msg-registered" class="alert alert-success" th:if="${param.registered}">
-        <span>✓</span> Dang ky thanh cong, hay dang nhap
+        <span>✓</span> Đăng ký thành công, hãy đăng nhập
     </p>
     <p id="msg-logout" class="alert alert-success" th:if="${param.logout}">
-        <span>ℹ</span> Ban da dang xuat
+        <span>ℹ</span> Bạn đã đăng xuất
     </p>
     <p id="error" class="alert alert-error" th:if="${error}" th:text="${error}" role="alert"></p>
 
     <!-- Form đăng nhập -->
     <form method="post" th:action="@{/login}">
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">Tên đăng nhập</label>
             <input id="username" name="username" type="text" placeholder="Nhập tên đăng nhập..." autocomplete="username">
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">Mật khẩu</label>
             <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password">
         </div>
-        <button id="login-btn" type="submit">Dang nhap</button>
+        <button id="login-btn" type="submit">Đăng nhập</button>
     </form>
 
+    <div style="margin-top: 16px; padding: 12px 14px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; font-size: 13px; color: #475569; text-align: left;">
+        <p style="font-weight: 700; color: #334155; margin-bottom: 4px;">🔑 Tài khoản thử nghiệm có sẵn:</p>
+        <p>• Admin: <code>admin</code> / Mật khẩu: <code>admin123</code></p>
+        <p>• User: <code>alice</code> / Mật khẩu: <code>secret1</code></p>
+    </div>
+
     <div class="auth-footer">
-        Chưa có tài khoản? <a id="register-link" th:href="@{/register}">Dang ky</a>
+        Chưa có tài khoản? <a id="register-link" th:href="@{/register}">Đăng ký</a>
     </div>
 </div>
 </body>

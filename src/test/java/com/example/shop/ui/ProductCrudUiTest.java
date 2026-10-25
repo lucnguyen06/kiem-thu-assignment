@@ -1,6 +1,7 @@
 package com.example.shop.ui;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.UUID;
@@ -9,7 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-/** Y4: CRUD san pham bang Selenium su dung Page Object Model. */
+/**
+ * Y4: Kiem thu tu dong CRUD san pham bang Selenium WebDriver (Page Object Model).
+ */
 public class ProductCrudUiTest extends BaseTest {
 
     @BeforeMethod(dependsOnMethods = "openBrowser", alwaysRun = true)
@@ -34,12 +37,57 @@ public class ProductCrudUiTest extends BaseTest {
         assertEquals(productsPage.getProductInfo("Ao thun").price(), "150000");
     }
 
+    @Test(groups = {"smoke", "product"})
+    public void should_CreateProduct_WithBoundaryValues() {
+        productsPage.clickAddProduct();
+        // Bien toi thieu: price = 1, quantity = 0
+        productFormPage.fillForm("San pham bien", "1", "0");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(rowOf("San pham bien")));
+        assertEquals(productsPage.getProductInfo("San pham bien").price(), "1");
+        assertEquals(productsPage.getProductInfo("San pham bien").quantity(), "0");
+    }
+
     @Test(groups = {"regression", "product"})
     public void should_ShowFieldErrors_When_CreateInvalid() {
         productsPage.clickAddProduct();
         productFormPage.fillForm("x", "0", "-1");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("field-error")));
         assertTrue(productFormPage.getFieldErrorCount() >= 2);
+    }
+
+    @Test(groups = {"regression", "product"})
+    public void should_ShowFieldErrors_When_NameEmpty() {
+        productsPage.clickAddProduct();
+        productFormPage.fillForm("", "100000", "5");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("field-error")));
+        assertTrue(productFormPage.hasValidationErrors());
+    }
+
+    @Test(groups = {"regression", "product"})
+    public void should_CancelCreateProduct_When_CancelClicked() {
+        productsPage.clickAddProduct();
+        wait.until(ExpectedConditions.urlContains("/products/new"));
+        productFormPage.enterName("San pham huy");
+        productFormPage.enterPrice("50000");
+        productFormPage.enterQuantity("2");
+        productFormPage.clickCancel();
+
+        wait.until(ExpectedConditions.urlContains("/products"));
+        assertTrue(productsPage.isOnProductsPage());
+        assertFalse(productsPage.isProductExists("San pham huy"));
+    }
+
+    @Test(groups = {"regression", "product"})
+    public void should_DisplayPreFilledData_When_OpenEditForm() {
+        productsPage.clickAddProduct();
+        productFormPage.fillForm("SanPhamPrefill", "250000", "12");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(rowOf("SanPhamPrefill")));
+
+        productsPage.clickEditProduct("SanPhamPrefill");
+        wait.until(ExpectedConditions.urlContains("/edit"));
+        assertEquals(productFormPage.getNameValue(), "SanPhamPrefill");
+        assertEquals(productFormPage.getPriceValue(), "250000");
+        assertEquals(productFormPage.getQuantityValue(), "12");
     }
 
     @Test(groups = {"regression", "product"})
@@ -62,6 +110,6 @@ public class ProductCrudUiTest extends BaseTest {
 
         productsPage.clickDeleteProduct("San pham xoa");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(rowOf("San pham xoa")));
-        assertTrue(!productsPage.isProductExists("San pham xoa"));
+        assertFalse(productsPage.isProductExists("San pham xoa"));
     }
 }

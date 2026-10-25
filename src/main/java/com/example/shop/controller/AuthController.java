@@ -57,12 +57,15 @@ public class AuthController {
                         @RequestParam String password,
                         HttpSession session,
                         Model model) {
+        // Xoa phien dang nhap cu neu co de dam bao an toan
+        session.removeAttribute(SESSION_USER);
+
         Optional<User> user = userService.authenticate(username, password);
         if (user.isPresent()) {
             session.setAttribute(SESSION_USER, user.get().getUsername());
             return "redirect:/products";
         }
-        model.addAttribute("error", "Dang nhap khong thanh cong");
+        model.addAttribute("error", "Đăng nhập không thành công");
         return "login";
     }
 

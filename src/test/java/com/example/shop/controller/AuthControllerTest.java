@@ -58,7 +58,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/login").param("username", "alice").param("password", "bad"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"))
-                .andExpect(model().attribute("error", "Dang nhap khong thanh cong"))
+                .andExpect(model().attribute("error", "Đăng nhập không thành công"))
                 .andExpect(request().sessionAttribute(AuthController.SESSION_USER, (Object) null));
     }
 

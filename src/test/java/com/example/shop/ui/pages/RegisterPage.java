@@ -29,7 +29,7 @@ public class RegisterPage {
     private final By registerButton = By.id("register-btn");
     private final By errorMessage = By.id("error");
     private final By successMessage = By.id("msg-registered");
-    private final By loginLink = By.linkText("Dang nhap");
+    private final By loginLink = By.id("login-link");
     
     public RegisterPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;

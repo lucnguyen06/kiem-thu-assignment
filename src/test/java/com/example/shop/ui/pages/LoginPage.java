@@ -22,7 +22,7 @@ public class LoginPage {
     private final By passwordInput = By.id("password");
     private final By loginButton = By.id("login-btn");
     private final By errorMessage = By.id("error");
-    private final By registerLink = By.linkText("Dang ky");
+    private final By registerLink = By.id("register-link");
     
     public LoginPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;

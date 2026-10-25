@@ -294,6 +294,29 @@ Làm thế nào để chạy được Selenium test cục bộ mà không cần 
 - Khởi chạy lại: `mvn test -Pui -Dgroups=smoke` và `mvn test -Pui`.
 - Kết quả: 10/10 test UI Selenium đều chạy thành công ở chế độ headless.
 
+**Lỗi 5: Xung đột cú pháp data.sql giữa H2 (Test) và MySQL (Runtime) & Lỗi HTML5 browser validation chặn test Selenium**
+```
+Prompt cho AI:
+Khi chạy Selenium TestNG test (mvn test -Pui), BaseTest.startApp() ném ngoại lệ:
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "INSERT [*]IGNORE INTO product... expected INTO"
+Làm cho context bị lỗi và baseUrl = null.
+Đồng thời, khi test nhập form không hợp lệ, Selenium bị timeout khi đợi class "field-error".
+Hãy phân tích nguyên nhân và cách xử lý tương thích 100% giữa MySQL và H2.
+```
+
+**Cách AI hỗ trợ:**
+```
+1. Nguyên nhân 1: Cú pháp "INSERT IGNORE" là đặc thù của MySQL/MariaDB, H2 Database (dùng trong test) không hỗ trợ và ném cú pháp lỗi.
+   -> Giải pháp: Bỏ file data.sql, chuyển sang dùng Java Component `DataInitializer` thực thi `CommandLineRunner`. Kiểm tra repository.count() == 0 rồi mới seed data, hoạt động mượt mà và an toàn trên mọi hệ quản trị CSDL.
+2. Nguyên nhân 2: Thẻ <input min="1"> kích hoạt HTML5 client validation trên Chrome, chặn form submit trước khi gửi request tới controller Spring Boot, khiến server không render được class .field-error.
+   -> Giải pháp: Thêm thuộc tính `novalidate` vào thẻ <form> của product-form.html để cho phép dữ liệu invalid truyền lên Spring Validator (@Valid) xử lý và trả về lỗi chuẩn.
+```
+
+**Cách tôi xử lý:**
+- Tạo `com.example.shop.DataInitializer.java` tự động khởi tạo 2 tài khoản mẫu (`admin`/`admin123`, `alice`/`secret1`) và 25 sản phẩm mẫu có dấu tiếng Việt chuẩn.
+- Thêm `novalidate` vào `product-form.html`.
+- Chạy lại toàn bộ test: `mvn test` (47/47 PASS) và `mvn test -Pui` (10/10 PASS).
+
 ---
 
 ## 4. GitHub Actions CI/CD

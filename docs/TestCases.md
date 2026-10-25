@@ -2,7 +2,8 @@
 
 ## Trạng thái kiểm thử
 - **JUnit 5 (Service & Controller)**: 47 tests, 0 fail (100% Pass trên Java 25 LTS)
-- **TestNG (Selenium UI với Page Object Model)**: 10 tests, 0 fail (100% Pass trên Java 25 LTS)
+- **TestNG (Selenium UI với Page Object Model)**: 21 tests, 0 fail (100% Pass trên Java 25 LTS)
+- **Tổng cộng**: 68 tests tự động hoàn chỉnh (100% Pass)
 
 ## 1. Decision Table - Đăng nhập
 
@@ -91,46 +92,60 @@
 | CT-PRD-09 | POST /products/delete/{id} | ✅ Redirect /products |
 | CT-PRD-10 | Edit id không tồn tại | ✅ 404 hoặc redirect |
 
-## 5. UI Tests (Selenium + TestNG với Page Object Model - 10 tests)
+## 5. UI Tests (Selenium WebDriver + TestNG với Page Object Model - 21 tests)
 
-### AuthUiTest (Page Objects: RegisterPage, LoginPage, ProductsPage)
+### 5.1. AuthUiTest (Page Objects: RegisterPage, LoginPage, ProductsPage - 13 test executions)
 
-| ID | Test method | Group | Kỹ thuật áp dụng | Trạng thái |
-|----|-------------|-------|-------------------|------------|
-| UI-AUTH-01 | should_RegisterThenLogin_When_DataValid | smoke, auth | Page Object Model, End-to-end flow | ✅ Pass |
-| UI-AUTH-02 | should_ShowError_When_RegisterInvalid (3 bộ dữ liệu) | regression, auth | Page Object Model, DataProvider | ✅ Pass |
-| UI-AUTH-03 | should_ShowError_When_LoginWrongPassword | smoke, auth | Page Object Model, Error validation | ✅ Pass |
-| UI-AUTH-04 | should_RedirectToLogin_When_OpenProductsWithoutLogin | regression, auth | Page Object Model, Auth Guard | ✅ Pass |
+| ID | Test method / Dữ liệu | Group | Kỹ thuật áp dụng | Kết quả mong đợi | Trạng thái |
+|:---|:---|:---:|:---|:---|:---:|
+| UI-AUTH-01 | `should_RegisterThenLogin_When_DataValid` | smoke, auth | Page Object Model, End-to-end flow | Đăng ký thành công, tự động đăng nhập vào `/products`, hiển thị đúng tên người dùng | ✅ Pass |
+| UI-AUTH-02 | `should_LoginSuccessfully_WithSeededAdminAccount` | smoke, auth | Page Object Model, Seed Data Verify | Đăng nhập tài khoản mẫu `admin` / `admin123` thành công, `currentUser` = "admin" | ✅ Pass |
+| UI-AUTH-03 | `should_LoginSuccessfully_WithSeededAliceAccount` | smoke, auth | Page Object Model, Seed Data Verify | Đăng nhập tài khoản mẫu `alice` / `secret1` thành công, `currentUser` = "alice" | ✅ Pass |
+| UI-AUTH-04 | `should_LogoutSuccessfully_When_ClickLogout` | smoke, auth | Page Object Model, Session Invalidation | Bấm Đăng xuất -> Chuyển về `/login`, hiện alert "Bạn đã đăng xuất", cố truy cập lại `/products` bị chặn chuyển về `/login` | ✅ Pass |
+| UI-AUTH-05 | `should_ShowError_When_LoginWrongPassword` | smoke, auth | Page Object Model, Error Validation | Đăng nhập với mật khẩu sai -> Hiển thị thông báo "Đăng nhập không thành công" | ✅ Pass |
+| UI-AUTH-06 | `should_ShowError_When_LoginNonExistentUser` | regression, auth | Page Object Model, Error Validation | Đăng nhập username không tồn tại -> Hiển thị "Đăng nhập không thành công" | ✅ Pass |
+| UI-AUTH-07 | `should_RedirectToLogin_When_OpenProductsWithoutLogin` | regression, auth | Page Object Model, Auth Guard | Chưa đăng nhập mà truy cập `/products` -> Tự động chuyển hướng về `/login` | ✅ Pass |
+| UI-AUTH-08 | `should_NavigateBetweenLoginAndRegisterPages` | regression, auth | Page Object Model, Navigation link | Click qua lại giữa link "Đăng ký" và "Đăng nhập" mượt mà | ✅ Pass |
+| UI-AUTH-09 | `should_ShowError_When_RegisterInvalid` (DataProvider #1: "ab") | regression, auth | Boundary Value Analysis (BVA dưới min) | Báo lỗi: "Username phai tu 3 den 50 ky tu" | ✅ Pass |
+| UI-AUTH-10 | `should_ShowError_When_RegisterInvalid` (DataProvider #2: 51 ký tự) | regression, auth | Boundary Value Analysis (BVA trên max) | Báo lỗi: "Username phai tu 3 den 50 ky tu" | ✅ Pass |
+| UI-AUTH-11 | `should_ShowError_When_RegisterInvalid` (DataProvider #3: password 3 ký tự) | regression, auth | Boundary Value Analysis (Password < 6) | Báo lỗi: "Password phai co it nhat 6 ky tu" | ✅ Pass |
+| UI-AUTH-12 | `should_ShowError_When_RegisterInvalid` (DataProvider #4: email "not-an-email") | regression, auth | Equivalence Partitioning (Email sai format) | Báo lỗi: "Email khong hop le" | ✅ Pass |
+| UI-AUTH-13 | `should_ShowError_When_RegisterInvalid` (DataProvider #5: email "user@") | regression, auth | Equivalence Partitioning (Email thiếu domain) | Báo lỗi: "Email khong hop le" | ✅ Pass |
 
-### ProductCrudUiTest (Page Objects: ProductsPage, ProductFormPage, RegisterPage, LoginPage)
+### 5.2. ProductCrudUiTest (Page Objects: ProductsPage, ProductFormPage, RegisterPage, LoginPage - 8 tests)
 
-| ID | Test method | Group | Kỹ thuật áp dụng | Trạng thái |
-|----|-------------|-------|-------------------|------------|
-| UI-PRD-01 | should_CreateProduct_When_FormValid | smoke, product | Page Object Model, Create | ✅ Pass |
-| UI-PRD-02 | should_ShowFieldErrors_When_CreateInvalid | regression, product | Page Object Model, Field validation | ✅ Pass |
-| UI-PRD-03 | should_UpdateProduct_When_EditSaved | regression, product | Page Object Model, Update | ✅ Pass |
-| UI-PRD-04 | should_DeleteProduct_When_DeleteClicked | smoke, product | Page Object Model, Delete | ✅ Pass |
+| ID | Test method | Group | Kỹ thuật áp dụng | Kết quả mong đợi | Trạng thái |
+|:---|:---|:---:|:---|:---|:---:|
+| UI-PRD-01 | `should_CreateProduct_When_FormValid` | smoke, product | Page Object Model, Create | Nhập form hợp lệ (Ao thun, 150000, 10) -> Lưu thành công, hiển thị trên bảng sản phẩm | ✅ Pass |
+| UI-PRD-02 | `should_CreateProduct_WithBoundaryValues` | smoke, product | Boundary Value Analysis (Biên tối thiểu) | Nhập giá = 1, số lượng = 0 -> Tạo thành công với giá 1 và số lượng 0 | ✅ Pass |
+| UI-PRD-03 | `should_ShowFieldErrors_When_CreateInvalid` | regression, product | Server Validation, Error Check | Nhập giá = 0, số lượng âm (-1) -> Hiển thị ít nhất 2 lỗi `.field-error` | ✅ Pass |
+| UI-PRD-04 | `should_ShowFieldErrors_When_NameEmpty` | regression, product | Validation, Empty Field Check | Để trống tên sản phẩm và bấm Lưu -> Hiển thị lỗi validation | ✅ Pass |
+| UI-PRD-05 | `should_CancelCreateProduct_When_CancelClicked` | regression, product | Navigation, Cancel Action | Nhập form dở dang rồi bấm nút Hủy -> Quay về `/products`, không thêm sản phẩm vào bảng | ✅ Pass |
+| UI-PRD-06 | `should_DisplayPreFilledData_When_OpenEditForm` | regression, product | Data Binding, Edit State | Bấm nút "Sửa" -> Form hiển thị sẵn tên, giá, số lượng hiện tại của sản phẩm | ✅ Pass |
+| UI-PRD-07 | `should_UpdateProduct_When_EditSaved` | regression, product | Page Object Model, Update | Sửa tên từ "Quan jean" thành "Quan jean moi", giá 350000 -> Bảng cập nhật thông tin mới | ✅ Pass |
+| UI-PRD-08 | `should_DeleteProduct_When_DeleteClicked` | smoke, product | Page Object Model, Delete | Bấm nút "Xóa" tại dòng sản phẩm -> Sản phẩm biến mất khỏi bảng | ✅ Pass |
 
 ## 6. Tổng kết
 
-| Loại test | Công cụ | Số lượng | Pass | Fail | Skip | Tỷ lệ |
-|-----------|---------|:--------:|:----:|:----:|:----:|:-----:|
-| Unit Test (Service) | JUnit 5 + Mockito | 31 | 31 | 0 | 0 | 100% |
-| Controller Test | JUnit 5 + MockMvc | 16 | 16 | 0 | 0 | 100% |
-| UI Automation Test | Selenium + TestNG (POM) | 10 | 10 | 0 | 0 | 100% |
-| **Tổng cộng** | | **57** | **57** | **0** | **0** | **100%** |
+| Loại test | Công cụ | Số lượng | Pass | Fail | Skip | Tỷ lệ Pass |
+|-----------|---------|:--------:|:----:|:----:|:----:|:----------:|
+| Unit Test (Service) | JUnit 5 + Mockito | 31 | 31 | 0 | 0 | **100%** |
+| Controller Test | JUnit 5 + MockMvc | 16 | 16 | 0 | 0 | **100%** |
+| UI Automation Test | Selenium WebDriver + TestNG (POM) | 21 | 21 | 0 | 0 | **100%** |
+| **Tổng cộng** | | **68** | **68** | **0** | **0** | **100%** |
 
 ## 7. Coverage Matrix
 
-| Chức năng | Unit Test | Controller Test | UI Test (POM) |
-|-----------|:---------:|:---------------:|:-------------:|
-| Đăng ký | ✅ | ✅ | ✅ |
-| Đăng nhập | ✅ | ✅ | ✅ |
-| Đăng xuất | ❌ | ❌ | ✅ |
+| Chức năng nghiệp vụ | Unit Test | Controller Test | UI Automation Test (POM) |
+|---|:---:|:---:|:---:|
+| Đăng ký tài khoản (hợp lệ & không hợp lệ) | ✅ | ✅ | ✅ |
+| Đăng nhập (tài khoản thường & tài khoản có sẵn) | ✅ | ✅ | ✅ |
+| Đăng xuất (xóa session và bảo vệ route) | ❌ | ✅ | ✅ |
 | Xem danh sách sản phẩm | ✅ | ✅ | ✅ |
-| Thêm mới sản phẩm | ✅ | ✅ | ✅ |
+| Thêm mới sản phẩm (hợp lệ & giá trị biên) | ✅ | ✅ | ✅ |
+| Form validation khi thêm/sửa sản phẩm | ✅ | ✅ | ✅ |
 | Chỉnh sửa sản phẩm | ✅ | ✅ | ✅ |
 | Xóa sản phẩm | ✅ | ✅ | ✅ |
-| Validation dữ liệu | ✅ | ✅ | ✅ |
-| Phân quyền / Authorization | ❌ | ✅ | ✅ |
+| Nút Hủy và điều hướng trang | ❌ | ❌ | ✅ |
+| Phân quyền / Authorization (chặn truy cập trái phép) | ❌ | ✅ | ✅ |
 

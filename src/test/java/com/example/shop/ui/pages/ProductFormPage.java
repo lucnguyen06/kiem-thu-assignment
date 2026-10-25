@@ -20,7 +20,7 @@ public class ProductFormPage {
     private final By priceInput = By.id("price");
     private final By quantityInput = By.id("quantity");
     private final By saveButton = By.id("save-btn");
-    private final By cancelButton = By.id("cancel-btn");
+    private final By cancelButton = By.id("cancel-link");
     private final By fieldErrors = By.className("field-error");
     private final By formTitle = By.cssSelector("h2");
     

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form san pham</title>
+    <title>Form sản phẩm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -186,33 +186,34 @@
 <div class="form-card">
     <div class="form-header">
         <span class="form-badge">📦 Sản phẩm</span>
-        <h1 th:text="${product.id == null} ? 'Them san pham' : 'Sua san pham'"></h1>
+        <h1 th:text="${product.id == null} ? 'Thêm sản phẩm' : 'Sửa sản phẩm'"></h1>
     </div>
 
     <form method="post"
+          novalidate
           th:action="${product.id == null} ? @{/products} : @{/products/{id}(id=${product.id})}"
           th:object="${product}">
         <div class="form-group">
-            <label for="name">Ten</label>
-            <input id="name" name="name" type="text" placeholder="Nhập tên sản phẩm..." th:value="*{name}">
+            <label for="name">Tên sản phẩm</label>
+            <input id="name" th:field="*{name}" type="text" placeholder="Nhập tên sản phẩm...">
             <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
         </div>
 
         <div class="form-group">
-            <label for="price">Gia</label>
-            <input id="price" name="price" type="number" placeholder="Tối thiểu 1..." th:value="*{price}">
+            <label for="price">Giá</label>
+            <input id="price" th:field="*{price}" type="number" min="1" placeholder="Tối thiểu 1...">
             <span class="field-error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
         </div>
 
         <div class="form-group">
-            <label for="quantity">So luong</label>
-            <input id="quantity" name="quantity" type="number" placeholder="Tối thiểu 0..." th:value="*{quantity}">
+            <label for="quantity">Số lượng</label>
+            <input id="quantity" th:field="*{quantity}" type="number" min="0" placeholder="Tối thiểu 0...">
             <span class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
         </div>
 
         <div class="button-group">
-            <button id="save-btn" type="submit">Luu</button>
-            <a id="cancel-link" th:href="@{/products}">Huy</a>
+            <button id="save-btn" type="submit">Lưu</button>
+            <a id="cancel-link" th:href="@{/products}">Hủy</a>
         </div>
     </form>
 </div>

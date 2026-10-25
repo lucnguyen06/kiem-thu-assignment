@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>San pham</title>
+    <title>Danh sách sản phẩm</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -327,17 +327,17 @@
     <div class="nav-actions">
         <p class="user-badge">
             <span class="user-avatar">👤</span>
-            Xin chao, <span id="current-user" th:text="${currentUser}"></span>
+            Xin chào, <span id="current-user" th:text="${currentUser}"></span>
         </p>
-        <a id="add-link" class="btn btn-primary" th:href="@{/products/new}">+ Them san pham</a>
-        <a id="logout-link" class="btn btn-outline-danger" th:href="@{/logout}">Dang xuat</a>
+        <a id="add-link" class="btn btn-primary" th:href="@{/products/new}">+ Thêm sản phẩm</a>
+        <a id="logout-link" class="btn btn-outline-danger" th:href="@{/logout}">Đăng xuất</a>
     </div>
 </nav>
 
 <!-- Main Container -->
 <main class="main-container">
     <div class="page-header">
-        <h1>Danh sach san pham</h1>
+        <h1>Danh sách sản phẩm</h1>
     </div>
 
     <div class="card">
@@ -346,10 +346,10 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Ten</th>
-                    <th>Gia</th>
-                    <th>So luong</th>
-                    <th>Thao tac</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -360,9 +360,9 @@
                     <td class="p-qty" th:text="${p.quantity}"></td>
                     <td>
                         <div class="actions-cell">
-                            <a class="edit-link" th:href="@{/products/{id}/edit(id=${p.id})}">Sua</a>
+                            <a class="edit-link" th:href="@{/products/{id}/edit(id=${p.id})}">Sửa</a>
                             <form style="display:inline" method="post" th:action="@{/products/{id}/delete(id=${p.id})}">
-                                <button class="delete-btn" type="submit">Xoa</button>
+                                <button class="delete-btn" type="submit">Xóa</button>
                             </form>
                         </div>
                     </td>
@@ -372,7 +372,7 @@
                         <div class="empty-state">
                             <div class="empty-icon">📦</div>
                             <div class="empty-title">Chưa có sản phẩm nào</div>
-                            <p>Bấm nút <strong>"+ Them san pham"</strong> ở trên để tạo sản phẩm đầu tiên của bạn.</p>
+                            <p>Bấm nút <strong>"+ Thêm sản phẩm"</strong> ở trên để tạo sản phẩm đầu tiên của bạn.</p>
                         </div>
                     </td>
                 </tr>

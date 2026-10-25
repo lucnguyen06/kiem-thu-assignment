@@ -105,8 +105,8 @@ Truy cập: `http://localhost:8080/login` hoặc `http://localhost:8080/register
 |-----------|---------|:-------------:|:-------:|
 | Service Test (Logic nghiệp vụ) | JUnit 5 + Mockito | 31 | ✅ 31 Pass (0 Fail) |
 | Controller Test (REST / Web MVC) | JUnit 5 + MockMvc | 16 | ✅ 16 Pass (0 Fail) |
-| UI Automation Test (Giao diện POM) | Selenium + TestNG | 10 | ✅ 10 Pass (0 Fail) |
-| **Tổng cộng** | | **57** | **✅ 57/57 Pass (100%)** |
+| UI Automation Test (Giao diện POM) | Selenium + TestNG | 21 | ✅ 21 Pass (0 Fail) |
+| **Tổng cộng** | | **68** | **✅ 68/68 Pass (100%)** |
 
 ## CI/CD Pipeline (GitHub Actions)
 
