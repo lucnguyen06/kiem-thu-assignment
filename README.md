@@ -71,22 +71,45 @@ mvn clean test
 
 ### 2. Chạy UI Automation Tests (Selenium + TestNG + Page Object Model)
 ```bash
-# Chạy toàn bộ kiểm thử giao diện
-mvn test -Pui
+# Chạy toàn bộ kiểm thử giao diện (21 test executions)
+.\mvnw.cmd test -Pui       # (hoặc mvn test -Pui)
 
 # Chạy riêng nhóm kiểm thử smoke (nhanh, trọng tâm)
-mvn test -Pui -Dgroups=smoke
+.\mvnw.cmd test -Pui -Dgroups=smoke
 
 # Chạy có giao diện trình duyệt (không headless)
-mvn test -Pui -Dgroups=smoke -Dheadless=false
+.\mvnw.cmd test -Pui -Dgroups=smoke -Dheadless=false
 ```
-*Kết quả:* **10/10 tests PASS (100%)**
+*Kết quả:* **21/21 tests PASS (100%)**
 
 ### 3. Chạy ứng dụng trực tiếp
+
+Bạn có thể chạy ứng dụng theo một trong các cách sau:
+
+**Cách 1: Chạy bằng Maven (hoặc Maven Wrapper có sẵn không cần cài Maven)**
 ```bash
+# Sử dụng Maven Wrapper có sẵn trong dự án:
+.\mvnw.cmd spring-boot:run       # Trên Windows
+./mvnw spring-boot:run           # Trên Linux/macOS
+
+# Hoặc nếu máy đã cài đặt Maven toàn cục:
 mvn spring-boot:run
 ```
-Truy cập: `http://localhost:8080/login` hoặc `http://localhost:8080/register`.
+
+**Cách 2: Chạy nhanh bằng kịch bản Windows (Khuyên dùng)**
+- Click đúp vào file **`run-app.bat`** ở thư mục gốc dự án (kịch bản tự động kiểm tra và giải phóng cổng 8080 nếu bị chiếm dụng, đóng gói JAR và khởi động ứng dụng với Java 25 LTS).
+
+**Cách 3: Chạy trực tiếp qua file JAR đã đóng gói**
+```bash
+java -jar target/shop-asm-1.0.0.jar
+```
+
+Sau khi khởi động, truy cập trình duyệt tại:
+- Trang đăng nhập: `http://localhost:8080/login`
+- Trang đăng ký: `http://localhost:8080/register`
+- Tài khoản thử nghiệm có sẵn:
+  - **Admin**: `admin` / Mật khẩu: `admin123`
+  - **User**: `alice` / Mật khẩu: `secret1`
 
 ## Bảng đối chiếu yêu cầu Assignment (Y1 - Y6)
 
@@ -95,7 +118,7 @@ Truy cập: `http://localhost:8080/login` hoặc `http://localhost:8080/register
 | **Y1** | Ứng dụng web chạy hoàn chỉnh các chức năng | `src/main/java/com/example/shop/` | ✅ Hoàn thành |
 | **Y2** | Thiết kế Test Case & Test Plan (RAG + Prompt) | `docs/TestPlan.md`, `docs/TestCases.md` | ✅ Hoàn thành |
 | **Y3** | JUnit 5 + Mockito cho Service & MockMvc cho Controller | `src/test/java/com/example/shop/{service,controller}` | ✅ 47 tests PASS |
-| **Y4** | Selenium + TestNG kiểm thử Đăng ký, Đăng nhập, CRUD (POM) | `src/test/java/com/example/shop/ui/` | ✅ 10 tests PASS |
+| **Y4** | Selenium + TestNG kiểm thử Đăng ký, Đăng nhập, CRUD (POM) | `src/test/java/com/example/shop/ui/` | ✅ 21 tests PASS |
 | **Y5** | GitHub Actions CI/CD (push/PR, group smoke, upload reports) | `.github/workflows/selenium-ci.yml` | ✅ Hoàn thành |
 | **Y6** | Nhật ký sử dụng AI (Prompt + Before/After + Debug + Review) | `docs/AI_Log.md` | ✅ Hoàn thành |
 
